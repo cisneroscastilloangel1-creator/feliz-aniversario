@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Feliz 6 meses ❤️</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    user-select:none;
+}
+
+body{
+    margin:0;
+    font-family:Georgia,serif;
+    background:#090204;
+    color:#ffe8eb;
+    overflow-x:hidden;
+}
+
+.pantalla{
+    display:none;
+    min-height:100vh;
+    padding:30px 20px;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.pantalla.activa{
+    display:flex;
+    animation:entrada .7s ease;
+}
+
+.contenido{
+    width:100%;
+    max-width:900px;
+}
+
+h1{
+    font-size:clamp(32px,7vw,58px);
+}
+
+h2{
+    font-size:clamp(24px,5vw,38px);
+}
+
+p{
+    font-size:18px;
+    line-height:1.8;
+}
+
+button{
+    border:1px solid #ff5268;
+    padding:14px 25px;
+    border-radius:30px;
+    background:#4b0b15;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:20px;
+    box-shadow:0 5px 20px #0008;
+}
+
+.musica{
+    position:fixed;
+    top:15px;
+    right:15px;
+    z-index:1000;
+}
+
+#botonMusica{
+    margin:0;
+    padding:10px 15px;
+    font-size:20px;
+}
+
+.huella-area{
+    width:280px;
+    height:280px;
+    margin:10px auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    touch-action:none;
+}
+
+.huella-corazon{
+    width:245px;
+    height:245px;
+    transition:.15s;
+    filter:
+        drop-shadow(0 0 5px #ff304b)
+        drop-shadow(0 0 12px #000);
+}
+
+.huella-linea{
+    fill:none;
+    stroke:#ff3f57;
+    stroke-width:4;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.huella-activa .huella-corazon{
+    transform:scale(1.08);
+    filter:
+        drop-shadow(0 0 8px #ff304b)
+        drop-shadow(0 0 20px #ff304b);
+}
+
+.barra{
+    width:90%;
+    max-width:450px;
+    height:11px;
+    background:#25060b;
+    border:1px solid #6e1528;
+    border-radius:20px;
+    margin:20px auto;
+    overflow:hidden;
+}
+
+.progreso{
+    width:0%;
+    height:100%;
+    background:#ff5268;
+    box-shadow:0 0 10px #ff304b;
+}
+
+#porcentaje{
+    font-size:25px;
+    font-weight:bold;
+}
+
+#verificada,
+#btn1{
+    display:none;
+}
+
+.carta{
+    background:#350a12;
+    border:1px solid #852538;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 10px 35px #0008;
+}
+
+.foto-aqui{
+    width:100%;
+    max-width:520px;
+    height:400px;
+    margin:20px auto 35px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#170307;
+    border-radius:25px;
+    overflow:hidden;
+}
+
+.foto-aqui span{
+    color:#ff5268;
+    font-size:24px;
+    font-weight:bold;
+}
+
+.foto-aqui img{
+    display:none;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+.foto-aqui.foto-cargada span{
+    display:none;
+}
+
+.foto-aqui.foto-cargada img{
+    display:block;
+}
+
+.texto-foto{
+    background:#350a12;
+    border:1px solid #852538;
+    padding:25px;
+    border-radius:25px;
+    box-shadow:0 10px 35px #0008;
+}
+
+.tulipanes{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:25px;
+    margin:30px auto;
+}
+
+.tulipan{
+    font-size:65px;
+    cursor:pointer;
+    transition:.4s;
+}
+
+.tulipan:hover{
+    transform:scale(1.15);
+}
+
+.frase{
+    display:none;
+    background:#4b0b15;
+    border:1px solid #ff5268;
+    padding:9px 14px;
+    border-radius:20px;
+    font-size:14px;
+}
+
+.tulipan.abierto .frase{
+    display:block;
+}
+
+.mensaje-tulipan{
+    display:none;
+    margin:25px auto;
+    padding:20px;
+    max-width:650px;
+    background:#350a12;
+    border:1px solid #852538;
+    border-radius:20px;
+}
+
+.mensaje-tulipan.mostrar{
+    display:block;
+}
+
+.contador{
+    background:#350a12;
+    border:1px solid #852538;
+    border-radius:25px;
+    padding:25px;
+    margin:30px auto;
+}
+
+.tiempo{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.caja-tiempo{
+    background:#4b0b15;
+    padding:15px;
+    border-radius:15px;
+    min-width:100px;
+}
+
+.numero{
+    display:block;
+    font-size:27px;
+    font-weight:bold;
+}
+
+.corazon{
+    position:fixed;
+    bottom:-30px;
+    font-size:20px;
+    animation:subir 6s linear forwards;
+    pointer-events:none;
+}
+
+@keyframes entrada{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes subir{
+    from{
+        transform:translateY(0);
+        opacity:1;
+    }
+
+    to{
+        transform:translateY(-110vh);
+        opacity:0;
+    }
+}
+
+@media(max-width:700px){
+
+    .foto-aqui{
+        height:350px;
+    }
+
+    .carta{
+        padding:22px;
+    }
+
+    .texto-foto{
+        padding:20px;
+    }
+
+    p{
+        font-size:16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- MÚSICA -->
+
+<audio
+    id="musica"
+    src="./AUD-20260807-WA0031.mp3"
+    loop
+    preload="auto">
+</audio>
+
+<div class="musica">
+    <button id="botonMusica" type="button">▶️</button>
+</div>
+
+
+<!-- PANTALLA 1 -->
+
+<section class="pantalla activa" id="pantalla1">
+
+<div class="contenido">
+
+<h2>Verificación de huella ❤️</h2>
+
+<div class="huella-area" id="huellaArea">
+
+<svg
+    class="huella-corazon"
+    viewBox="0 0 200 190"
+    xmlns="http://www.w3.org/2000/svg">
+
+<path
+    class="huella-linea"
+    d="M100 175 C82 158 25 125 25 70 C25 35 67 18 100 55 C133 18 175 35 175 70 C175 125 118 158 100 175Z"/>
+
+<path
+    class="huella-linea"
+    d="M100 155 C82 140 43 112 43 75 C43 50 70 40 88 60 C94 67 97 75 100 85 C103 75 106 67 112 60 C130 40 157 50 157 75 C157 112 118 140 100 155Z"/>
+
+<path
+    class="huella-linea"
+    d="M100 137 C87 125 58 105 58 78 C58 61 76 53 89 68 C95 75 98 86 100 101 C102 86 105 75 111 68 C124 53 142 61 142 78 C142 105 113 125 100 137Z"/>
+
+<path
+    class="huella-linea"
+    d="M100 120 C92 111 72 98 72 81 C72 70 83 65 91 76 C96 83 98 94 100 108 C102 94 104 83 109 76 C117 65 128 70 128 81 C128 98 108 111 100 120Z"/>
+
+<path
+    class="huella-linea"
+    d="M100 105 C95 98 91 91 91 84 C91 76 96 72 100 72 C104 72 109 76 109 84 C109 91 105 98 100 105Z"/>
+
+</svg>
+
+</div>
+
+<h3 id="mensajeHuella">
+Mantén presionada la huella ❤️
+</h3>
+
+<div class="barra">
+    <div class="progreso" id="progreso"></div>
+</div>
+
+<div id="porcentaje">0%</div>
+
+<h2 id="verificada">
+✓ Huella verificada ❤️
+</h2>
+
+<button id="btn1" type="button">
+Siguiente ❤️
+</button>
+
+</div>
+
+</section>
+
+
+<!-- PANTALLA 2 -->
+
+<section class="pantalla" id="pantalla2">
+
+<div class="contenido">
+
+<div class="carta">
+
+<h1>Feliz 6 meses, mi amor ❤️</h1>
+
+<p>
+Hoy cumplimos 6 meses, y aunque la distancia nos separe
+físicamente, nunca ha impedido que te sienta cerca de mi corazón. ❤️
+</p>
+
+<p>
+Hemos compartido momentos, conversaciones, risas y sentimientos
+a través de una pantalla, y aun así has conseguido convertirte
+en alguien demasiado especial para mí.
+</p>
+
+<p>
+Gracias por quedarte, por cada mensaje y por hacer que incluso
+estando lejos pueda sentirme acompañado. 💕
+</p>
+
+<p>
+Ojalá pronto podamos estar juntos y convertir todos esos momentos
+que imaginamos en recuerdos reales. Hasta entonces, quiero seguir
+construyendo nuestra historia contigo, sin importar cuántos
+kilómetros haya entre nosotros.
+</p>
+
+<p>
+<strong>
+Felices 6 meses, mi amor. Te amo muchísimo. ❤️
+</strong>
+</p>
+
+</div>
+
+<button onclick="siguiente(3)">
+Continuar ❤️
+</button>
+
+</div>
+
+</section>
+
+
+<!-- PANTALLA 3 -->
+
+<section class="pantalla" id="pantalla3">
+
+<div class="contenido">
+
+<h1>Mi amor ❤️</h1>
+
+<div class="foto-aqui" id="contenedorFoto">
+
+<span>FOTO AQUÍ</span>
+
+<img
+    id="foto"
+    src="./IMG-20260627-WA0027.jpg"
+    alt="Foto">
+
+</div>
+
+<div class="texto-foto">
+
+<p>
+Quiero que sepas lo especial que eres para mí. ❤️
+</p>
+
+<p>
+Para mí eres una persona increíble, especial y única.
+No tienes que compararte con nadie para saber todo lo
+que vales.
+</p>
+
+<p>
+Me encanta tu forma de ser, tu manera de hablar,
+tus ocurrencias y todos esos pequeños detalles
+que hacen que seas tú. 💕
+</p>
+
+<p>
+<strong>
+No necesitas ser perfecta para ser importante para mí.
+</strong>
+</p>
+
+<p>
+Nunca olvides lo mucho que vales y lo especial que eres
+para mí. ❤️
+</p>
+
+</div>
+
+<button onclick="siguiente(4)">
+Siguiente ❤️
+</button>
+
+</div>
+
+</section>
+
+
+<!-- PANTALLA 4 -->
+
+<section class="pantalla" id="pantalla4">
+
+<div class="contenido">
+
+<h1>🌷 Para ti, mi amor 🌷</h1>
+
+<p>
+Toca cada tulipán para descubrir una sorpresa ❤️
+</p>
+
+<div class="tulipanes">
+
+<div class="tulipan" onclick="abrirTulipan(this)">
+🌷
+<div class="frase">Te amo muchísimo ❤️</div>
+</div>
+
+<div class="tulipan" onclick="abrirTulipan(this)">
+🌷
+<div class="frase">Eres mi todo 💕</div>
+</div>
+
+<div class="tulipan" onclick="abrirTulipan(this)">
+🌷
+<div class="frase">Eres una persona increíble ✨</div>
+</div>
+
+<div class="tulipan" onclick="abrirTulipan(this)">
+🌷
+<div class="frase">Gracias por llegar a mi vida ❤️</div>
+</div>
+
+<div class="tulipan" onclick="abrirTulipan(this)">
+🌷
+<div class="frase">
+La distancia no cambia lo que siento por ti 🌎❤️
+</div>
+</div>
+
+<div class="tulipan" onclick="abrirTulipan(this)">
+🌷
+<div class="frase">
+Siempre tendrás un lugar especial en mi corazón 💗
+</div>
+</div>
+
+<div class="tulipan" onclick="abrirTulipan(this)">
+🌷
+<div class="frase">
+Me haces sonreír incluso estando lejos 🥹❤️
+</div>
+</div>
+
+<div class="tulipan" onclick="abrirTulipan(this)">
+🌷
+<div class="frase">
+Espero poder darte estos tulipanes algún día 🌷
+</div>
+</div>
+
+</div>
+
+<div class="mensaje-tulipan" id="mensajeTulipan">
+
+<p>
+Tú me contaste una vez que te encantan los tulipanes
+y espero algún día poder dártelos en persona, amor. 🌷❤️
+</p>
+
+</div>
+
+<button onclick="siguiente(5)">
+Continuar ❤️
+</button>
+
+</div>
+
+</section>
+
+
+<!-- PANTALLA 5 -->
+
+<section class="pantalla" id="pantalla5">
+
+<div class="contenido">
+
+<h1>
+Feliz 6 meses, mi amor ❤️
+</h1>
+
+<h2>
+Y si pudiera pedir un deseo, sería que estos 6 meses
+se convirtieran en muchos años más contigo. ❤️
+</h2>
+
+<div class="contador">
+
+<h2>Llevamos juntos ❤️</h2>
+
+<div class="tiempo">
+
+<div class="caja-tiempo">
+<span class="numero" id="meses">0</span>
+meses
+</div>
+
+<div class="caja-tiempo">
+<span class="numero" id="dias">0</span>
+días
+</div>
+
+<div class="caja-tiempo">
+<span class="numero" id="horas">0</span>
+horas
+</div>
+
+<div class="caja-tiempo">
+<span class="numero" id="minutos">0</span>
+minutos
+</div>
+
+<div class="caja-tiempo">
+<span class="numero" id="segundos">0</span>
+segundos
+</div>
+
+</div>
+</div>
+
+<h2>
+Esto recién comienza... ❤️✨
+</h2>
+
+<button onclick="volverInicio()">
+💌 Volver a empezar
+</button>
+
+</div>
+
+</section>
+
+
+<script>
+
+/* NAVEGACIÓN */
+
+function siguiente(numero){
+
+    document
+    .querySelectorAll(".pantalla")
+    .forEach(p =>
+        p.classList.remove("activa")
+    );
+
+    document
+    .getElementById("pantalla" + numero)
+    .classList.add("activa");
+
+    crearCorazones();
+}
+
+document
+.getElementById("btn1")
+.addEventListener("click", function(){
+
+    siguiente(2);
+
+});
+
+
+/* FOTO */
+
+const foto =
+document.getElementById("foto");
+
+foto.addEventListener("load", function(){
+
+    document
+    .getElementById("contenedorFoto")
+    .classList.add("foto-cargada");
+
+});
+
+
+/* HUELLA */
+
+const huellaArea =
+document.getElementById("huellaArea");
+
+const progreso =
+document.getElementById("progreso");
+
+const porcentajeTexto =
+document.getElementById("porcentaje");
+
+const mensajeHuella =
+document.getElementById("mensajeHuella");
+
+const verificada =
+document.getElementById("verificada");
+
+const btn1 =
+document.getElementById("btn1");
+
+let porcentaje = 0;
+let presionando = false;
+let ultimoTiempo = 0;
+let animacion = null;
+
+
+function animarHuella(tiempo){
+
+    if(!presionando){
+
+        animacion = null;
+        return;
+    }
+
+    if(ultimoTiempo === 0){
+
+        ultimoTiempo = tiempo;
+
+    }
+
+    const diferencia =
+        tiempo - ultimoTiempo;
+
+    ultimoTiempo = tiempo;
+
+    porcentaje += diferencia / 40;
+
+    if(porcentaje >= 100){
+
+        porcentaje = 100;
+        presionando = false;
+
+        huellaArea.classList.remove(
+            "huella-activa"
+        );
+
+        progreso.style.width = "100%";
+
+        porcentajeTexto.textContent = "100%";
+
+        mensajeHuella.textContent =
+            "¡Huella verificada! ❤️";
+
+        verificada.style.display =
+            "block";
+
+        btn1.style.display =
+            "inline-block";
+
+        animacion = null;
+
+        return;
+    }
+
+    progreso.style.width =
+        porcentaje + "%";
+
+    porcentajeTexto.textContent =
+        Math.floor(porcentaje) + "%";
+
+    animacion =
+        requestAnimationFrame(
+            animarHuella
+        );
+}
+
+
+function comenzarHuella(e){
+
+    e.preventDefault();
+
+    if(porcentaje >= 100)
+        return;
+
+    presionando = true;
+
+    ultimoTiempo = 0;
+
+    huellaArea.classList.add(
+        "huella-activa"
+    );
+
+    mensajeHuella.textContent =
+        "Escaneando huella... ❤️";
+
+    if(animacion === null){
+
+        animacion =
+            requestAnimationFrame(
+                animarHuella
+            );
+    }
+}
+
+
+function soltarHuella(e){
+
+    e.preventDefault();
+
+    if(porcentaje >= 100)
+        return;
+
+    presionando = false;
+
+    ultimoTiempo = 0;
+
+    huellaArea.classList.remove(
+        "huella-activa"
+    );
+
+    mensajeHuella.textContent =
+        "Pausado. Mantén presionada para continuar ❤️";
+
+    if(animacion !== null){
+
+        cancelAnimationFrame(animacion);
+
+        animacion = null;
+    }
+}
+
+
+huellaArea.addEventListener(
+    "pointerdown",
+    comenzarHuella
+);
+
+huellaArea.addEventListener(
+    "pointerup",
+    soltarHuella
+);
+
+huellaArea.addEventListener(
+    "pointercancel",
+    soltarHuella
+);
+
+huellaArea.addEventListener(
+    "pointerleave",
+    soltarHuella
+);
+
+
+/* MÚSICA */
+
+const musica =
+document.getElementById("musica");
+
+const botonMusica =
+document.getElementById("botonMusica");
+
+botonMusica.addEventListener(
+    "click",
+    async function(){
+
+        try{
+
+            if(musica.paused){
+
+                musica.currentTime = 0;
+
+                await musica.play();
+
+                botonMusica.textContent =
+                    "⏸️";
+
+            }
+
+            else{
+
+                musica.pause();
+
+                botonMusica.textContent =
+                    "▶️";
+
+            }
+
+        }
+
+        catch(error){
+
+            console.log(
+                "Error de audio:",
+                error
+            );
+
+            alert(
+                "El navegador no pudo reproducir la música. Comprueba que el archivo MP3 esté dentro del proyecto."
+            );
+        }
+
+    }
+);
+
+
+/* TULIPANES */
+
+let tulipanesAbiertos = 0;
+
+function abrirTulipan(tulipan){
+
+    if(
+        !tulipan.classList.contains(
+            "abierto"
+        )
+    ){
+
+        tulipan.classList.add(
+            "abierto"
+        );
+
+        tulipanesAbiertos++;
+    }
+
+    if(tulipanesAbiertos >= 8){
+
+        document
+        .getElementById("mensajeTulipan")
+        .classList.add("mostrar");
+    }
+}
+
+
+/* CONTADOR */
+
+const fechaInicio =
+new Date(
+    "2026-02-18T01:42:00-05:00"
+);
+
+function actualizarContador(){
+
+    const ahora = new Date();
+
+    let diferencia =
+        ahora - fechaInicio;
+
+    if(diferencia < 0)
+        diferencia = 0;
+
+    let totalSegundos =
+        Math.floor(
+            diferencia / 1000
+        );
+
+    let segundos =
+        totalSegundos % 60;
+
+    let totalMinutos =
+        Math.floor(
+            totalSegundos / 60
+        );
+
+    let minutos =
+        totalMinutos % 60;
+
+    let totalHoras =
+        Math.floor(
+            totalMinutos / 60
+        );
+
+    let horas =
+        totalHoras % 24;
+
+    let fechaTemporal =
+        new Date(fechaInicio);
+
+    let meses = 0;
+
+    while(true){
+
+        let siguienteMes =
+            new Date(fechaTemporal);
+
+        siguienteMes.setMonth(
+            siguienteMes.getMonth() + 1
+        );
+
+        if(siguienteMes <= ahora){
+
+            meses++;
+
+            fechaTemporal =
+                siguienteMes;
+
+        }
+        else{
+
+            break;
+
+        }
+    }
+
+    let dias =
+        Math.floor(
+            (
+                ahora -
+                fechaTemporal
+            ) /
+            (
+                1000 *
+                60 *
+                60 *
+                24
+            )
+        );
+
+    document.getElementById("meses")
+        .textContent = meses;
+
+    document.getElementById("dias")
+        .textContent = dias;
+
+    document.getElementById("horas")
+        .textContent = horas;
+
+    document.getElementById("minutos")
+        .textContent = minutos;
+
+    document.getElementById("segundos")
+        .textContent = segundos;
+}
+
+setInterval(
+    actualizarContador,
+    1000
+);
+
+actualizarContador();
+
+
+/* CORAZONES */
+
+function crearCorazones(){
+
+    for(let i = 0; i < 8; i++){
+
+        const corazon =
+            document.createElement("div");
+
+        corazon.className =
+            "corazon";
+
+        corazon.textContent =
+            Math.random() > .5
+            ? "❤️"
+            : "💕";
+
+        corazon.style.left =
+            Math.random() * 100 + "vw";
+
+        corazon.style.animationDuration =
+            (4 + Math.random() * 4) + "s";
+
+        document.body.appendChild(
+            corazon
+        );
+
+        setTimeout(
+            () => corazon.remove(),
+            8000
+        );
+    }
+}
+
+
+/* VOLVER AL INICIO */
+
+function volverInicio(){
+
+    document
+    .querySelectorAll(".pantalla")
+    .forEach(p =>
+        p.classList.remove("activa")
+    );
+
+    document
+    .getElementById("pantalla1")
+    .classList.add("activa");
+
+    porcentaje = 0;
+
+    presionando = false;
+
+    ultimoTiempo = 0;
+
+    progreso.style.width = "0%";
+
+    porcentajeTexto.textContent =
+        "0%";
+
+    mensajeHuella.textContent =
+        "Mantén presionada la huella ❤️";
+
+    verificada.style.display =
+        "none";
+
+    btn1.style.display =
+        "none";
+}
+
+</script>
+
+</body>
+</html>
